@@ -6,7 +6,7 @@ export default class FlipWords extends Component {
   }
 
   reverse(s) { 
-    return s.split(" ").reverse().join(" "); 
+    return s.split(/\r?\n/).reverse().map(x => x.split(' ').reverse().join(' ')).join('\n')
   }
 
   render() {

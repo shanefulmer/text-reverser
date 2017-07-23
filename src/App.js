@@ -6,18 +6,25 @@ import ReverseWords from './ReverseWords.js';
 import FlipWords from './FlipWords.js';
 import ReverseEachLine from './ReverseEachLine.js';
 import ReactGA from 'react-ga';
+import QueryString from 'query-string';
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       currentTab: 'reverseText',
-      text: 'Enter text here'
+      text: this.getInputText()
     };
     this.handleChange = this.handleChange.bind(this);
 
     ReactGA.initialize('UA-102948975-1', {debug: true});
     ReactGA.pageview(window.location.pathname);
+
+  }
+
+  getInputText() {
+    let parsed = QueryString.parse(window.location.search);
+    return parsed.text || 'Enter text here';
   }
 
   handleChange(event) {
@@ -25,13 +32,13 @@ class App extends Component {
   }
 
   renderActiveTab() {
-    if (this.state.currentTab == 'reverseText') 
+    if (this.state.currentTab === 'reverseText') 
       return <ReverseText text={this.state.text} handleChange={this.handleChange} />;
-    if (this.state.currentTab == 'reverseWords') 
+    if (this.state.currentTab === 'reverseWords') 
       return <ReverseWords text={this.state.text} handleChange={this.handleChange} />;
-    if (this.state.currentTab == 'flipWords') 
+    if (this.state.currentTab === 'flipWords') 
       return <FlipWords text={this.state.text} handleChange={this.handleChange} />;
-    if (this.state.currentTab == 'reverseEachLine') 
+    if (this.state.currentTab === 'reverseEachLine') 
       return <ReverseEachLine text={this.state.text} handleChange={this.handleChange} />;
   }
 
