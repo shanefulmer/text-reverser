@@ -1,25 +1,47 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
-import ReverseText from './ReverseText.js';
-import ReverseWords from './ReverseWords.js';
-import FlipWords from './FlipWords.js';
-import ReverseEachLine from './ReverseEachLine.js';
 import ReactGA from 'react-ga';
 import QueryString from 'query-string';
+import CopyToClipboard from 'react-copy-to-clipboard';
+import StringFunctions from './stringFunctions.js'
+import fileDownload from 'react-file-download';
+import Dropzone from 'react-dropzone';
 
+let dropzoneRef;
 class App extends Component {
   constructor(props) {
     super(props);
+    this.functions = {
+      "reverseText": StringFunctions.reverseText,
+      "reverseEachLine": StringFunctions.reverseEachLine,
+      "reverseWords": StringFunctions.reverseWords,
+      "flipWords": StringFunctions.flipWords
+    };
+
     this.state = {
       currentTab: 'reverseText',
       text: this.getInputText()
     };
-    this.handleChange = this.handleChange.bind(this);
 
     ReactGA.initialize('UA-102948975-1', {debug: true});
     ReactGA.pageview(window.location.pathname);
 
+    this.downloadFile = this.downloadFile.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.onDrop = this.onDrop.bind(this);
+  }
+
+  onDrop(files) {
+    let fileReader = new FileReader();
+    fileReader.onload = (fileLoadedEvent) => {
+      let loadedText = fileLoadedEvent.target.result;
+      this.setState({text: loadedText});
+    };
+    fileReader.readAsText(files[0], "UTF-8");
+  }
+
+  handleChange(event) {
+    this.setState({'text': event.target.value});
   }
 
   getInputText() {
@@ -27,19 +49,12 @@ class App extends Component {
     return parsed.text || 'Enter text here';
   }
 
-  handleChange(event) {
-    this.setState({text: event.target.value});
+  transformText(text, tab) {
+    return this.functions[tab](text);
   }
 
-  renderActiveTab() {
-    if (this.state.currentTab === 'reverseText') 
-      return <ReverseText text={this.state.text} handleChange={this.handleChange} />;
-    if (this.state.currentTab === 'reverseWords') 
-      return <ReverseWords text={this.state.text} handleChange={this.handleChange} />;
-    if (this.state.currentTab === 'flipWords') 
-      return <FlipWords text={this.state.text} handleChange={this.handleChange} />;
-    if (this.state.currentTab === 'reverseEachLine') 
-      return <ReverseEachLine text={this.state.text} handleChange={this.handleChange} />;
+  transform() {
+    return this.functions[this.state.currentTab](this.state.text);
   }
 
   getActiveClass(tab) {
@@ -49,6 +64,10 @@ class App extends Component {
 
   selectTab(tab) {
     this.setState({currentTab: tab});
+  }
+
+  downloadFile() {
+    fileDownload(this.transform(), 'text.txt');
   }
 
   render() {
@@ -63,7 +82,7 @@ class App extends Component {
                 <span className="icon-bar"></span>
                 <span className="icon-bar"></span>
               </button>
-              <a className="navbar-brand" href="#">
+              <a className="navbar-brand" href="/">
                 <h3 className="header-brand">Text<span className="text-primary">Reverser</span> </h3>
               </a>
             </div>
@@ -83,7 +102,24 @@ class App extends Component {
                   <li className={this.getActiveClass('flipWords')} role="presentation"><a onClick={x => this.selectTab('flipWords')}>Flip Words</a></li>
                 </ul>
                 <div id="register-form">
-                  {this.renderActiveTab()}
+                  <div className='textInput'>
+                    <div className="form-group">
+                      <textarea value={this.state.text} onChange={this.handleChange} className="form-control" />
+                    </div>
+                    <div className="form-group">
+                      <textarea readOnly value={this.transform()} className="form-control" />
+                    </div>
+                  </div>
+                  <div className='text-right'>
+                    <CopyToClipboard text={this.transform()}>
+                      <a className="btn btn-md btn-default btn-pill page-scroll">Copy to Clipboard</a>
+                    </CopyToClipboard>
+                    <a onClick={() => {dropzoneRef.open() }} className="btn btn-md btn-default btn-pill page-scroll">Load from File</a>
+                    <a onClick={this.downloadFile} className="btn btn-md btn-default btn-pill page-scroll">Save as File</a>
+                    <Dropzone accept='text/*' multiple={false} style={{display: 'none'}} ref={(node) => {dropzoneRef = node; }} onDrop={this.onDrop}>
+                      <p>Try dropping some files here, or click to select files to upload.</p>
+                    </Dropzone>
+                  </div>
                 </div>
               </div>
               <div className="col-sm-4">
@@ -101,7 +137,7 @@ class App extends Component {
                 <p>Flips the order of all words in the text. Keeps each word in it's original form.</p>
                 <br />
                 <p>
-                  <a href="#" className="btn btn-md btn-primary-filled btn-pill page-scroll">See Examples</a>
+                  <a href="/" className="btn btn-md btn-primary-filled btn-pill page-scroll">See Examples</a>
                 </p>
               </div>
             </div>
