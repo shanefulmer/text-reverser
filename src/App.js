@@ -6,6 +6,7 @@ import CopyToClipboard from 'react-copy-to-clipboard';
 import StringFunctions from './stringFunctions.js'
 import fileDownload from 'react-file-download';
 import Dropzone from 'react-dropzone';
+import upsideDown from 'flip-text';
 
 let dropzoneRef;
 class App extends Component {
@@ -15,11 +16,12 @@ class App extends Component {
       "reverseText": StringFunctions.reverseText,
       "reverseEachLine": StringFunctions.reverseEachLine,
       "reverseWords": StringFunctions.reverseWords,
-      "flipWords": StringFunctions.flipWords
+      "flipWords": StringFunctions.flipWords,
+      "upsideDown": upsideDown
     };
 
     this.state = {
-      currentTab: 'reverseText',
+      currentTab: this.getCurrentTab(),
       text: this.getInputText()
     };
 
@@ -44,6 +46,11 @@ class App extends Component {
     this.setState({'text': event.target.value});
   }
 
+  getCurrentTab() {
+    let parsed = QueryString.parse(window.location.search);
+    return parsed.mode || 'reverseText';
+  }
+
   getInputText() {
     let parsed = QueryString.parse(window.location.search);
     return parsed.text || 'Enter text here';
@@ -51,6 +58,10 @@ class App extends Component {
 
   transformText(text, tab) {
     return this.functions[tab](text);
+  }
+
+  buildLink() {
+    return `textreverser.com?text=${this.state.text}&mode=${this.state.currentTab}`;
   }
 
   transform() {
@@ -100,6 +111,7 @@ class App extends Component {
                   <li className={this.getActiveClass('reverseWords')} role="presentation"><a onClick={x => this.selectTab('reverseWords')}>Reverse Words</a></li>
                   <li className={this.getActiveClass('reverseEachLine')} role="presentation"><a onClick={x => this.selectTab('reverseEachLine')}>Reverse Each Line</a></li>
                   <li className={this.getActiveClass('flipWords')} role="presentation"><a onClick={x => this.selectTab('flipWords')}>Flip Words</a></li>
+                  <li className={this.getActiveClass('upsideDown')} role="presentation"><a onClick={x => this.selectTab('upsideDown')}>Upside-Down Text</a></li>
                 </ul>
                 <div id="register-form">
                   <div className='textInput'>
@@ -111,6 +123,9 @@ class App extends Component {
                     </div>
                   </div>
                   <div className='text-right'>
+                    <CopyToClipboard text={this.buildLink()}>
+                      <a className="btn btn-md btn-default btn-pill page-scroll">Copy Link</a>
+                    </CopyToClipboard>
                     <CopyToClipboard text={this.transform()}>
                       <a className="btn btn-md btn-default btn-pill page-scroll">Copy to Clipboard</a>
                     </CopyToClipboard>
@@ -136,9 +151,8 @@ class App extends Component {
                 <h3>Flip Words</h3>
                 <p>Flips the order of all words in the text. Keeps each word in it's original form.</p>
                 <br />
-                <p>
-                  <a href="/" className="btn btn-md btn-primary-filled btn-pill page-scroll">See Examples</a>
-                </p>
+                <h3>Upside Down Text</h3>
+                <p>Flips all of the text upside down.</p>
               </div>
             </div>
           </div>

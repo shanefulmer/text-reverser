@@ -2536,6 +2536,10 @@ flatten@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/flatten/-/flatten-1.0.2.tgz#dae46a9d78fbe25292258cc1e780a41d95c03782"
 
+flip-text@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/flip-text/-/flip-text-1.1.0.tgz#bbad45b56e0969783610302355c80faff68692a6"
+
 for-in@^1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/for-in/-/for-in-1.0.2.tgz#81068d295a8142ec0ac726c6e2200c30fb6d5e80"
