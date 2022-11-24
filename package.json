@@ -6,20 +6,16 @@
     "react-scripts": "1.0.10"
   },
   "dependencies": {
-    "flip-text": "^1.1.0",
-    "query-string": "^5.0.0",
-    "react": "^15.6.1",
-    "react-copy-to-clipboard": "^5.0.0",
-    "react-dom": "^15.6.1",
-    "react-dropzone": "^3.13.3",
-    "react-file-download": "^0.3.4",
-    "react-ga": "^2.2.0"
+    "flip-text": "^1.2.0",
+    "js-file-download": "^0.4.12",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "use-file-picker": "^1.5.1"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject",
-    "prod": "aws s3 sync build s3://textreverser.com/"
+    "eject": "react-scripts eject"
   }
 }
