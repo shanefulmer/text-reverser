@@ -21,7 +21,7 @@ const getTextFromQueryString = () => {
   return params.get('text') ? params.get('text') : 'Enter Text Here';
 }
 
-const App = (props) => {
+const App = () => {
   const [tab, setTab] = useState(getTabFromQueryString());
   const [text, setText] = useState(getTextFromQueryString());
   const inputFile = useRef(null)
@@ -55,7 +55,7 @@ const App = (props) => {
           </div>
           <div className="navbar-collapse collapse">
             <ul className="nav navbar-nav">
-              <li><a href='http://textreverser.com' className="page-scroll"><span>Text Reverser</span></a></li>
+              <li><a href='http://textreverser.com' className="page-scroll"><span>Reverse Text Generator</span></a></li>
             </ul>
           </div>
         </nav>
