@@ -82,10 +82,10 @@ const App = () => {
               <div id="register-form">
                 <div className='textInput'>
                   <div className="form-group">
-                    <textarea 
-                      value={text} 
-                      onChange={(e) => setText(e.target.value)} 
-                      className="form-control" 
+                    <textarea
+                      value={text}
+                      onChange={(e) => setText(e.target.value)}
+                      className="form-control"
                     />
                   </div>
                   <div className="form-group">
@@ -97,7 +97,7 @@ const App = () => {
                   <a onClick={() => navigator.clipboard.writeText(functions[tab](text))} className="btn btn-md btn-default btn-pill page-scroll">Copy to Clipboard</a>
                   <a onClick={() => inputFile.current.click()} className="btn btn-md btn-default btn-pill page-scroll">Load from File</a>
                   <a onClick={() => fileDownload(functions[tab](text), "text.txt")} className="btn btn-md btn-default btn-pill page-scroll">Save as File</a>
-                  <input onChange={onChange} type='file' id='file' ref={inputFile} style={{display: 'none'}}/>
+                  <input onChange={onChange} type='file' id='file' ref={inputFile} style={{ display: 'none' }} />
                 </div>
               </div>
             </div>
