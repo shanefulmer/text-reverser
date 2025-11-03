@@ -61,7 +61,7 @@ const App = () => {
         </nav>
         <div className="header-content">
           <div className="row">
-            <div className="col-sm-9 header-content-feature">
+            <div className="col-sm-12 header-content-feature">
               <ul className="nav nav-tabs">
                 <li className={tab === "reverseText" ? "active" : ""}>
                   <a onClick={() => setTab("reverseText")}>Reverse Text</a>
@@ -100,23 +100,6 @@ const App = () => {
                   <input onChange={onChange} type='file' id='file' ref={inputFile} style={{ display: 'none' }} />
                 </div>
               </div>
-            </div>
-            <div className="col-sm-3">
-              <br />
-              <h3>Reverse Text</h3>
-              <p>Reverses the entire text entered in the box.</p>
-              <br />
-              <h3>Reverse Words</h3>
-              <p>Reverses each word in the text. Keep words in the same order.</p>
-              <br />
-              <h3>Reverse Each Line</h3>
-              <p>Reverses the text of each line.</p>
-              <br />
-              <h3>Flip Words</h3>
-              <p>Flips the order of all words in the text. Keeps each word in it's original form.</p>
-              <br />
-              <h3>Upside Down Text</h3>
-              <p>Flips all of the text upside down.</p>
             </div>
           </div>
         </div>
